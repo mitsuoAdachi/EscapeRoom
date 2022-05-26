@@ -2,6 +2,7 @@ using System.Collections;　　　//　コルーチンを利用する際に必�
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class PasswardCustom : MonoBehaviour
 {
@@ -13,7 +14,25 @@ public class PasswardCustom : MonoBehaviour
     [SerializeField]
     private int[] _sliderValues = default;
     [SerializeField]
-    private Slider[] _sliderPanels = default;
+    private Slider[] _sliderPanels;
+
+    [SerializeField]
+    private GameObject _queriChans;
+
+    [SerializeField]
+    private GameObject _queriCam;
+
+    [SerializeField]
+    private GameObject _tObject;
+
+    [SerializeField]
+    private GameObject _wallT;
+
+    [SerializeField]
+    private GameObject _TCam;
+
+    [SerializeField]
+    private GameObject _particleT;
 
 
     void Start()
@@ -35,7 +54,23 @@ public class PasswardCustom : MonoBehaviour
             yield return null;
         }
 
-        Debug.Log("ギミック１クリア");}
+        Debug.Log("ギミック１クリア");
+
+        StartCoroutine(QueriChansStandby());
+
+    }
+    private IEnumerator QueriChansStandby()
+    {
+        yield return new WaitForSeconds(1);
+        _queriCam.SetActive(true);
+
+        yield return new WaitForSeconds(2);
+        var _qPos = _queriChans.transform.position;
+        _queriChans.transform.DOMove(new Vector3(_qPos.x, 1.351f, _qPos.z), 1f);
+
+        yield return new WaitForSeconds(2);
+        _queriCam.SetActive(false);
+    }
     /// <summary>
     /// 入力された番号が設定された番号とすべて一致するか判定
     /// </summary>
@@ -65,7 +100,24 @@ public class PasswardCustom : MonoBehaviour
         }
 
         Debug.Log("ギミック２クリア");
+
+        StartCoroutine(T_Action());
+
     }
+    private IEnumerator T_Action()
+    {
+        yield return new WaitForSeconds(1);
+        _TCam.SetActive(true);
+        yield return new WaitForSeconds(2);
+        _particleT.SetActive(true);
+        _wallT.SetActive(false);
+        _tObject.SetActive(true);
+        yield return new WaitForSeconds(2);
+        _TCam.SetActive(false);
+
+
+    }
+
     private bool IsClearGimmick2()
     {
         for (int i = 0; i < _sliderValues.Length; i++)
