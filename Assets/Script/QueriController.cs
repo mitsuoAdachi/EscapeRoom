@@ -5,6 +5,9 @@ using UnityEngine.AI;
 
 public class QueriController : MonoBehaviour
 {
+    //private int _moveFingerId;
+    //private Vector3 _startPos, _currentPos;
+
     [SerializeField]
     private float _limitSpeedX;
     [SerializeField]
@@ -27,6 +30,38 @@ public class QueriController : MonoBehaviour
 
     void Update()
     {
+        ////タッチ関数を使用した移動処理
+        //foreach (var touch in Input.touches)
+        //{
+        //    if (touch.position.x < 800)
+        //    {
+        //        if (touch.phase == TouchPhase.Began)
+        //        {
+        //            int _moveFingerId = touch.fingerId;
+        //            //_rigid.isKinematic = false;
+        //            _startPos = touch.position;
+        //        }
+        //        if (touch.phase == TouchPhase.Moved)
+        //        {
+        //            _currentPos = touch.position;
+        //        }
+
+        //        if (touch.fingerId == _moveFingerId)
+        //        {
+        //            var _changeVector = Quaternion.AngleAxis(Camera.main.transform.eulerAngles.y, Vector3.up);
+        //            Vector2 _move = _currentPos - _startPos;
+        //            float _moveX = Mathf.Clamp(_move.x, -_limitSpeedX, _limitSpeedX);
+        //            float _moveY = Mathf.Clamp(_move.y, -_limitSpeedY, _limitSpeedY);
+        //            //Debug.Log("_move distance" + _move);
+        //            _move3 = new Vector3(_moveX, 0, _moveY);
+
+        //            _agent.Move(_changeVector * _move3);
+        //        }
+        //        if (touch.phase == TouchPhase.Ended)
+        //        {
+        //            _animator.SetBool("run", false);
+        //        }
+        //    }
         var _horizontal = Input.GetAxis("Horizontal");
         var _vertical = Input.GetAxis("Vertical");
 
@@ -47,8 +82,8 @@ public class QueriController : MonoBehaviour
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(_diff), Time.deltaTime * _rotSpeed);
         }
-
-        if (MoveX > 0.01f || MoveY > 0.01f)
+        //走るアニメーション
+        if (MoveX != 0 || MoveY != 0)
         {
             _animator.SetFloat("running", 0.5f);
         }

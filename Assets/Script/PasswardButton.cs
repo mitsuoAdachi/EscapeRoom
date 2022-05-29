@@ -8,6 +8,9 @@ public class PasswardButton : MonoBehaviour
     [SerializeField]
     TMP_Text numberText = default;
 
+    [SerializeField]
+    AudioClip _audio;
+
     public int number;
 
     // Start is called before the first frame update
@@ -19,6 +22,7 @@ public class PasswardButton : MonoBehaviour
 
     public void OnClickThis()
     {
+        AudioSource.PlayClipAtPoint(_audio, Camera.main.transform.position);
         number++;
         if (number > 9)
         {

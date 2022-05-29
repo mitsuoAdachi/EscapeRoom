@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Cinemachine;
 
 public class SwitchCam : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class SwitchCam : MonoBehaviour
 
     [SerializeField]
     private Button[] _buttons;
+
 
     private void Start()
     {
@@ -31,6 +33,5 @@ public class SwitchCam : MonoBehaviour
     {
         _zoomCam[index].SetActive(true);
     }
-
 
 }

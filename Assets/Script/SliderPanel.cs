@@ -11,6 +11,9 @@ public class SliderPanel : MonoBehaviour
     [SerializeField]
     private Button[] _buttons;
 
+    [SerializeField]
+    private AudioClip _audio;
+
     private void Start()
     {
         for (int i = 0; i < _sliders.Length; i++)
@@ -21,6 +24,8 @@ public class SliderPanel : MonoBehaviour
     }
     public void SliderPlus(int index)
     {
+        AudioSource.PlayClipAtPoint(_audio, Camera.main.transform.position);
+
          _sliders[index].value += 1f;
         if (_sliders[index].value > 4f)
         {

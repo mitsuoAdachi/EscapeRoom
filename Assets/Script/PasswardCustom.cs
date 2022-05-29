@@ -23,6 +23,9 @@ public class PasswardCustom : MonoBehaviour
     private GameObject _queriCam;
 
     [SerializeField]
+    private GameObject _queriButton;
+
+    [SerializeField]
     private GameObject _tObject;
 
     [SerializeField]
@@ -33,6 +36,9 @@ public class PasswardCustom : MonoBehaviour
 
     [SerializeField]
     private GameObject _particleT;
+
+    [SerializeField]
+    AudioClip _audio;
 
 
     void Start()
@@ -55,7 +61,7 @@ public class PasswardCustom : MonoBehaviour
         }
 
         Debug.Log("ギミック１クリア");
-
+        AudioSource.PlayClipAtPoint(_audio,Camera.main.transform.position);
         StartCoroutine(QueriChansStandby());
 
     }
@@ -63,6 +69,7 @@ public class PasswardCustom : MonoBehaviour
     {
         yield return new WaitForSeconds(1);
         _queriCam.SetActive(true);
+        _queriButton.SetActive(true);
 
         yield return new WaitForSeconds(2);
         var _qPos = _queriChans.transform.position;
@@ -100,11 +107,11 @@ public class PasswardCustom : MonoBehaviour
         }
 
         Debug.Log("ギミック２クリア");
-
-        StartCoroutine(T_Action());
+        AudioSource.PlayClipAtPoint(_audio, Camera.main.transform.position);
+        StartCoroutine(T_Drop());
 
     }
-    private IEnumerator T_Action()
+    private IEnumerator T_Drop()
     {
         yield return new WaitForSeconds(1);
         _TCam.SetActive(true);

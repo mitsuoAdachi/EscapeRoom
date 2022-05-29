@@ -5,11 +5,13 @@ using UnityEngine.UI;
 
 public class QueriJump : MonoBehaviour
 {
-    [SerializeField]
-    Animator[] _animator;
+    public Animator[] _animator;
 
     [SerializeField]
     private Button[] _buttons;
+
+    [SerializeField]
+    private AudioClip _audio;
 
     // Start is called before the first frame update
     //void Start()
@@ -26,13 +28,10 @@ public class QueriJump : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
     public void Jump(int index)
     {
-            _animator[index].SetTrigger("jump");
+        _animator[index].SetTrigger("jump");
+        if(index < 6)
+        AudioSource.PlayClipAtPoint(_audio, Camera.main.transform.position,0.2f);
     }
 }
