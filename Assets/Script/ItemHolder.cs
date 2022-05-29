@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ItemHolder : MonoBehaviour
 {
@@ -9,7 +10,8 @@ public class ItemHolder : MonoBehaviour
     AudioClip _audio;
 
     [SerializeField]
-    private GameObject _getImage;
+    //private GameObject _getImage;
+    private TextMeshProUGUI _textGetItem;
 
     public Image[] _item;
 
@@ -30,14 +32,18 @@ public class ItemHolder : MonoBehaviour
             RaycastHit _hit;
             if (Physics.Raycast(_ray, out _hit))
             {
-                if (_hit.collider.gameObject.tag == "Item")
+                //if (_hit.collider.gameObject.tag == "Item")
+                if(_hit.collider.TryGetComponent(out ItemDetail _itemDetail))
                 {
-                    Image _itemImage= _hit.collider.gameObject.GetComponent<Image>();
-                    _item[_itemCount].sprite = _itemImage.sprite;
+                    _item[_itemCount].sprite = _itemDetail.itemImage;
+                    //Image _itemImage= _hit.collider.gameObject.GetComponent<Image>();
+                    //_item[_itemCount].sprite = _itemImage.sprite;
                     _itemCount++;
                     //Debug.Log("hit");
                     Destroy(_hit.collider.gameObject);
-                    _getImage.SetActive(true);
+                    //_getImage.SetActive(true);
+                    _textGetItem.transform.parent.gameObject.SetActive(true);
+                    _textGetItem.text = _itemDetail.ItemName.ToString()+"を手に入れた。";
                     AudioSource.PlayClipAtPoint(_audio, Camera.main.transform.position);
                 }
             }
@@ -47,7 +53,7 @@ public class ItemHolder : MonoBehaviour
 
     public void GetItemImageFalse()
     {
-        _getImage.SetActive(false);
+        _textGetItem.transform.parent.gameObject.SetActive(false);
     }
     //public void GetItem()
     //{

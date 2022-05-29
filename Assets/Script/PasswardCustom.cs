@@ -52,7 +52,8 @@ public class PasswardCustom : MonoBehaviour
     /// </summary>
     /// <returns></returns>
     private IEnumerator CheckClearGimmick1()
-    {        Debug.Log("ギミック１クリア状態の監視　スタート");
+    {
+        Debug.Log("ギミック１クリア状態の監視　スタート");
 
         // IsClear メソッドの戻り値が false の間、ループを繰り返す。true になったらループを抜ける
         while (!IsClearGimmick1())
@@ -61,7 +62,7 @@ public class PasswardCustom : MonoBehaviour
         }
 
         Debug.Log("ギミック１クリア");
-        AudioSource.PlayClipAtPoint(_audio,Camera.main.transform.position);
+        AudioSource.PlayClipAtPoint(_audio, Camera.main.transform.position);
         StartCoroutine(QueriChansStandby());
 
     }
@@ -111,19 +112,6 @@ public class PasswardCustom : MonoBehaviour
         StartCoroutine(T_Drop());
 
     }
-    private IEnumerator T_Drop()
-    {
-        yield return new WaitForSeconds(1);
-        _TCam.SetActive(true);
-        yield return new WaitForSeconds(2);
-        _particleT.SetActive(true);
-        _wallT.SetActive(false);
-        _tObject.SetActive(true);
-        yield return new WaitForSeconds(2);
-        _TCam.SetActive(false);
-
-
-    }
 
     private bool IsClearGimmick2()
     {
@@ -135,5 +123,19 @@ public class PasswardCustom : MonoBehaviour
             }
         }
         return true;
+    }
+
+    private IEnumerator T_Drop()
+    {
+        yield return new WaitForSeconds(1);
+        _TCam.SetActive(true);
+
+        yield return new WaitForSeconds(2);
+        _particleT.SetActive(true);
+        _wallT.SetActive(false);
+        _tObject.SetActive(true);
+
+        yield return new WaitForSeconds(2);
+        _TCam.SetActive(false);
     }
 }

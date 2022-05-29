@@ -5,7 +5,6 @@ using UnityEngine.AI;
 
 public class QueriController : MonoBehaviour
 {
-    //private int _moveFingerId;
     //private Vector3 _startPos, _currentPos;
 
     [SerializeField]
@@ -35,9 +34,10 @@ public class QueriController : MonoBehaviour
         //{
         //    if (touch.position.x < 800)
         //    {
+        //        int _moveFingerId;
         //        if (touch.phase == TouchPhase.Began)
         //        {
-        //            int _moveFingerId = touch.fingerId;
+        //            _moveFingerId = touch.fingerId;
         //            //_rigid.isKinematic = false;
         //            _startPos = touch.position;
         //        }
