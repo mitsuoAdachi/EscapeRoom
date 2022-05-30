@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public enum ItemName
 {
     大文字のT,
-    Item_1,
+    出口の鍵,
 }
 public class ItemDetail : MonoBehaviour
 {

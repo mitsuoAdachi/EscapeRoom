@@ -8,8 +8,12 @@ public class MazeActive : MonoBehaviour
     [SerializeField]
     private GameObject _mazeImage;
 
+    [SerializeField]
+    private AudioClip _audio;
+
     private void OnTriggerEnter(Collider other)
     {
         _mazeImage.SetActive(true);
+        AudioSource.PlayClipAtPoint(_audio, Camera.main.transform.position);
     }
 }
