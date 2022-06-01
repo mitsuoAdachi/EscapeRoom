@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using DG.Tweening;
 
 public class ItemHolder : MonoBehaviour
 {
@@ -10,12 +11,25 @@ public class ItemHolder : MonoBehaviour
     AudioClip _audio;
 
     [SerializeField]
-    //private GameObject _getImage;
-    private TextMeshProUGUI _textGetItem;
+    public Image myGetItemDisPlay;
 
-    public Image[] _item;
+    [SerializeField]
+    private QueriController myPlayer;
 
-    public int _itemCount = default;
+    [SerializeField]
+    private Transform myGetItemFrame;
+
+    [SerializeField]
+    private GameObject myGetItemImage;
+
+    public Image[] myItemImage;
+
+    public int myItemCount = default;
+
+    private GameObject _getItem;
+
+    [SerializeField]
+    private GameObject myQuery;
 
     // Start is called before the first frame update
     void Start()
@@ -32,29 +46,53 @@ public class ItemHolder : MonoBehaviour
             RaycastHit _hit;
             if (Physics.Raycast(_ray, out _hit))
             {
-                //if (_hit.collider.gameObject.tag == "Item")
+                //クリックしたオブジェクトにItemDetailスクリプトがアタッチされていたら起動
                 if(_hit.collider.TryGetComponent(out ItemDetail _itemDetail))
                 {
-                    _item[_itemCount].sprite = _itemDetail.itemImage;
-                    //Image _itemImage= _hit.collider.gameObject.GetComponent<Image>();
-                    //_item[_itemCount].sprite = _itemImage.sprite;
-                    _itemCount++;
-                    //Debug.Log("hit");
-                    Destroy(_hit.collider.gameObject);
-                    //_getImage.SetActive(true);
-                    _textGetItem.transform.parent.gameObject.SetActive(true);
-                    _textGetItem.text = _itemDetail.ItemName.ToString()+"を手に入れた。";
                     AudioSource.PlayClipAtPoint(_audio, Camera.main.transform.position);
+
+                    //FPS時のアイテム取得
+                    if (_itemDetail.ItemType == ItemType.sprite)
+                    {
+                        myItemImage[myItemCount].sprite = _itemDetail.itemImage;
+                        myItemCount++;
+                        myGetItemImage.SetActive(true);
+                        myGetItemDisPlay.sprite = _itemDetail.itemImage;
+                    }
+                    //TPS時のアイテム取得
+                    if (_itemDetail.ItemType == ItemType.obj)
+                    {
+                        myPlayer.GetItemMotion();
+                        StartCoroutine(GetItemPosition());
+
+                        _getItem = Instantiate(_itemDetail.gameObject,myGetItemFrame);
+                        myItemImage[myItemCount].sprite = _itemDetail.itemImage;
+                        myItemCount++;
+                    }
+
+                    _itemDetail.txtMessage.text = _itemDetail.ItemName.ToString()+"を手に入れた。";
+                    Destroy(_hit.collider.gameObject);
                 }
             }
         }
         
     }
+    private IEnumerator GetItemPosition()
+    {
+        yield return new WaitForSeconds(1);
+        _getItem.transform.localPosition = Vector3.zero;
+        _getItem.transform.DORotate(new Vector3(0, -360, 0), 8f);
+        _getItem.transform.localScale=new Vector3(0.1f, 0.1f, 0.1f);
+    }
 
     public void GetItemImageFalse()
     {
-        _textGetItem.transform.parent.gameObject.SetActive(false);
+        myGetItemImage.SetActive(false);
+        myGetItemDisPlay.sprite = null;
+        Destroy(_getItem.gameObject);
+        myPlayer.GetItemMotionEnd();
     }
+
     //public void GetItem()
     //{
     //    if (Input.GetMouseButtonDown(0))

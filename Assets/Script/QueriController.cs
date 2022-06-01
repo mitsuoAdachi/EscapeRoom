@@ -14,6 +14,9 @@ public class QueriController : MonoBehaviour
     [SerializeField]
     private float _rotSpeed;
 
+    [SerializeField]
+    private GameObject myGetItemCam;
+
     private NavMeshAgent _agent;
 
     private Vector3 _latestPos;
@@ -91,5 +94,22 @@ public class QueriController : MonoBehaviour
         {
             _animator.SetFloat("running", 0);
         }
+    }
+    public void GetItemMotion()
+    {
+        myGetItemCam.SetActive(true);
+        _animator.SetTrigger("getItem");
+        StartCoroutine(StopMotion());
+    }
+    private IEnumerator StopMotion()
+    {
+        yield return new WaitForSeconds(1.7f);
+        _animator.speed = 0;
+    }
+
+    public void GetItemMotionEnd()
+    {
+        _animator.speed += 0.5f;
+        myGetItemCam.SetActive(false);
     }
 }

@@ -9,7 +9,12 @@ using UnityEngine.UI;
 public enum ItemName
 {
     大文字のT,
-    出口の鍵,
+    出口の鍵
+}
+public enum ItemType
+{
+    sprite,
+    obj
 }
 public class ItemDetail : MonoBehaviour
 {
@@ -20,6 +25,11 @@ public class ItemDetail : MonoBehaviour
     private ItemName itemName;
 
     public ItemName ItemName { get => itemName; }
+
+    [SerializeField]
+    private ItemType itemType;
+
+    public ItemType ItemType { get => itemType; }
 
     public Sprite itemImage;
 
