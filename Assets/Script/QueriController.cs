@@ -110,6 +110,7 @@ public class QueriController : MonoBehaviour
     public void GetItemMotionEnd()
     {
         _animator.speed += 0.5f;
+        _animator.ResetTrigger("getItem");
         myGetItemCam.SetActive(false);
     }
 }

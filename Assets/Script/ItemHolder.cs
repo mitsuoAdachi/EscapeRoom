@@ -10,8 +10,10 @@ public class ItemHolder : MonoBehaviour
     [SerializeField]
     AudioClip _audio;
 
+    private Image myGetItemDisplay;
+
     [SerializeField]
-    public Image myGetItemDisPlay;
+    private GameObject myGetItemDisplayFrame;
 
     [SerializeField]
     private QueriController myPlayer;
@@ -19,17 +21,17 @@ public class ItemHolder : MonoBehaviour
     [SerializeField]
     private Transform myGetItemFrame;
 
-    [SerializeField]
-    private GameObject myGetItemImage;
 
-    public Image[] myItemImage;
+    public Image[] myStockItemImage;
 
     public int myItemCount = default;
 
-    private GameObject _getItem;
+    private ItemDetail _getItem;
 
     [SerializeField]
-    private GameObject myQuery;
+    private GameObject myGetItemFalseButton;
+
+    private Tweener myTweener;
 
     // Start is called before the first frame update
     void Start()
@@ -54,10 +56,10 @@ public class ItemHolder : MonoBehaviour
                     //FPS時のアイテム取得
                     if (_itemDetail.ItemType == ItemType.sprite)
                     {
-                        myItemImage[myItemCount].sprite = _itemDetail.itemImage;
+                        myStockItemImage[myItemCount].sprite = _itemDetail.itemImage;
                         myItemCount++;
-                        myGetItemImage.SetActive(true);
-                        myGetItemDisPlay.sprite = _itemDetail.itemImage;
+                        myGetItemDisplayFrame.SetActive(true);
+                        myGetItemDisplay.sprite = _itemDetail.itemImage;
                     }
                     //TPS時のアイテム取得
                     if (_itemDetail.ItemType == ItemType.obj)
@@ -65,8 +67,9 @@ public class ItemHolder : MonoBehaviour
                         myPlayer.GetItemMotion();
                         StartCoroutine(GetItemPosition());
 
-                        _getItem = Instantiate(_itemDetail.gameObject,myGetItemFrame);
-                        myItemImage[myItemCount].sprite = _itemDetail.itemImage;
+                        //ItemDetail型で代入し100行目でGetCompornentせずに活用する
+                        _getItem = Instantiate(_itemDetail,myGetItemFrame);
+                        myStockItemImage[myItemCount].sprite = _itemDetail.itemImage;
                         myItemCount++;
                     }
 
@@ -81,16 +84,25 @@ public class ItemHolder : MonoBehaviour
     {
         yield return new WaitForSeconds(1);
         _getItem.transform.localPosition = Vector3.zero;
-        _getItem.transform.DORotate(new Vector3(0, -360, 0), 8f);
-        _getItem.transform.localScale=new Vector3(0.1f, 0.1f, 0.1f);
+        myTweener=_getItem.transform.DORotate(new Vector3(0, -360, 0), 7f)
+            .SetRelative(true)
+            .SetLoops(-1);
+        _getItem.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+
+        yield return new WaitForSeconds(3);
+        myGetItemFalseButton.SetActive(true);
     }
 
     public void GetItemImageFalse()
     {
-        myGetItemImage.SetActive(false);
-        myGetItemDisPlay.sprite = null;
+        myGetItemDisplayFrame.SetActive(false);
+        //myGetItemDisPlay.sprite = null;
+        _getItem.txtMessage.text = null;
         Destroy(_getItem.gameObject);
         myPlayer.GetItemMotionEnd();
+        myGetItemFalseButton.SetActive(false);
+        myTweener.Kill();
+
     }
 
     //public void GetItem()

@@ -24,7 +24,7 @@ public class TPSButton : MonoBehaviour
         {
             AudioSource.PlayClipAtPoint(_audio, Camera.main.transform.position);
             _textT.SetActive(true);
-            _itemHolder.myItemImage[_itemHolder.myItemCount-1].sprite = null;
+            _itemHolder.myStockItemImage[_itemHolder.myItemCount-1].sprite = null;
             //_itemHolder.myItemImage[_itemHolder.myItemCount-1].sprite = null;
             _itemHolder.myItemCount--;
             _TPSMode = true;
