@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using DG.Tweening;
 
 public class ItemHolder : MonoBehaviour
@@ -21,6 +20,14 @@ public class ItemHolder : MonoBehaviour
     [SerializeField]
     private Transform myGetItemFrame;
 
+    [SerializeField]
+    private GameObject myGetItemFalseButton;
+
+    [SerializeField]
+    private GameObject _moveWall;
+
+    [SerializeField]
+    private GameObject myWallMoveCam;
 
     public Image[] myStockItemImage;
 
@@ -28,10 +35,9 @@ public class ItemHolder : MonoBehaviour
 
     private ItemDetail _getItem;
 
-    [SerializeField]
-    private GameObject myGetItemFalseButton;
-
     private Tweener myTweener;
+
+    private bool myWAllMove;
 
     // Start is called before the first frame update
     void Start()
@@ -45,9 +51,11 @@ public class ItemHolder : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Ray _ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Debug.DrawRay(_ray.origin, _ray.direction, Color.white);
             RaycastHit _hit;
             if (Physics.Raycast(_ray, out _hit))
             {
+                Debug.Log(_hit);
                 //クリックしたオブジェクトにItemDetailスクリプトがアタッチされていたら起動
                 if(_hit.collider.TryGetComponent(out ItemDetail _itemDetail))
                 {
@@ -69,12 +77,18 @@ public class ItemHolder : MonoBehaviour
 
                         //ItemDetail型で代入し100行目でGetCompornentせずに活用する
                         _getItem = Instantiate(_itemDetail,myGetItemFrame);
+                        _getItem.gameObject.GetComponent<Collider>().enabled = false;
                         myStockItemImage[myItemCount].sprite = _itemDetail.itemImage;
+                        Debug.Log("アイテム獲得");
                         myItemCount++;
                     }
 
                     _itemDetail.txtMessage.text = _itemDetail.ItemName.ToString()+"を手に入れた。";
                     Destroy(_hit.collider.gameObject);
+                }
+                if (_hit.collider.gameObject.tag == "WallMove")
+                {
+                    myWAllMove = true;
                 }
             }
         }
@@ -100,9 +114,24 @@ public class ItemHolder : MonoBehaviour
         _getItem.txtMessage.text = null;
         Destroy(_getItem.gameObject);
         myPlayer.GetItemMotionEnd();
-        myGetItemFalseButton.SetActive(false);
         myTweener.Kill();
 
+        if (myWAllMove == true)
+        {
+            myWallMoveCam.SetActive(true);
+
+            StartCoroutine(MoveWall());
+        }
+
+        myGetItemFalseButton.SetActive(false);
+    }
+    private IEnumerator MoveWall()
+    {
+        yield return new WaitForSeconds(1);
+        _moveWall.transform.DOLocalMoveX(1, 1.5f);
+
+        yield return new WaitForSeconds(2.5f);
+        myWallMoveCam.SetActive(false);
     }
 
     //public void GetItem()

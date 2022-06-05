@@ -17,6 +17,9 @@ public class TButton : MonoBehaviour
 
     void Update()
     {
+        if (_selectItem == null)
+            return; 
+
         if (_activeItem)
         {
             _selectItem.SetActive(true);

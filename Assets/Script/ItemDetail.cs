@@ -8,8 +8,10 @@ using UnityEngine.UI;
 /// </summary>
 public enum ItemName
 {
-    大文字のT,
-    出口の鍵
+    アルファベットのT,
+    アルファベットのF,
+    出口の鍵,
+
 }
 public enum ItemType
 {

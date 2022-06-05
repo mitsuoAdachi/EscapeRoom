@@ -8,7 +8,10 @@ public class ChestOpen : MonoBehaviour
     private Animator myChestUpper;
 
     [SerializeField]
-    private ParticleSystem _particle1, _particle2;
+    private ParticleSystem _particle1; //_particle2;
+
+    [SerializeField]
+    private Collider myChestOpenCollider;
 
     [SerializeField]
     private GameObject myKey;
@@ -19,8 +22,9 @@ public class ChestOpen : MonoBehaviour
         {
             myChestUpper.SetTrigger("open");
             _particle1.Play();
-            _particle2.Play();
+            //_particle2.Play();
             StartCoroutine(ActiveKey());
+            myChestOpenCollider.enabled = false;
         }
     }
     private IEnumerator ActiveKey()

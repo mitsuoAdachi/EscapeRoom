@@ -12,6 +12,14 @@ public class PasswardCustom : MonoBehaviour
     private PasswardButton[] _passwardButtons = default;
 
     [SerializeField]
+    private int[] _correctNumbers2 = default;
+    [SerializeField]
+    private PasswardButton[] _passwardButtons2 = default;
+
+    [SerializeField]
+    private GameObject myNumberPanel;
+
+    [SerializeField]
     private int[] _sliderValues = default;
     [SerializeField]
     private Slider[] _sliderPanels;
@@ -46,6 +54,8 @@ public class PasswardCustom : MonoBehaviour
         // パスワード入力状態の監視
         StartCoroutine(CheckClearGimmick1());
         StartCoroutine(CheckClearGimmick2());
+        StartCoroutine(CheckClearGimmick3());
+
     }
     /// <summary>
     /// パスワード入力状態の監視
@@ -137,5 +147,38 @@ public class PasswardCustom : MonoBehaviour
 
         yield return new WaitForSeconds(2);
         _TCam.SetActive(false);
+    }
+
+    private IEnumerator CheckClearGimmick3()
+    {
+        Debug.Log("ギミック3クリア状態の監視　スタート");
+
+        while (!IsClearGimmick3())
+        {
+            yield return null;
+        }
+
+        Debug.Log("ギミック3クリア");
+        AudioSource.PlayClipAtPoint(_audio, Camera.main.transform.position);
+
+        StartCoroutine(MoveNumberPanel());
+    }
+    private IEnumerator MoveNumberPanel()
+    {
+        yield return new WaitForSeconds(2);
+        {
+            myNumberPanel.transform.DOLocalMoveX(1, 1);
+        }
+    }
+    private bool IsClearGimmick3()
+    {
+        for (int i = 0; i < _correctNumbers2.Length; i++)
+        {
+            if (_passwardButtons2[i].number != _correctNumbers2[i])
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }
