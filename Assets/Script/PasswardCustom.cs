@@ -46,7 +46,7 @@ public class PasswardCustom : MonoBehaviour
     private GameObject _particleT;
 
     [SerializeField]
-    AudioClip _audio;
+    AudioClip _audio1,_audio2;
 
 
     void Start()
@@ -72,7 +72,7 @@ public class PasswardCustom : MonoBehaviour
         }
 
         Debug.Log("ギミック１クリア");
-        AudioSource.PlayClipAtPoint(_audio, Camera.main.transform.position);
+        AudioSource.PlayClipAtPoint(_audio1, Camera.main.transform.position);
         StartCoroutine(QueriChansStandby());
 
     }
@@ -118,7 +118,7 @@ public class PasswardCustom : MonoBehaviour
         }
 
         Debug.Log("ギミック２クリア");
-        AudioSource.PlayClipAtPoint(_audio, Camera.main.transform.position);
+        AudioSource.PlayClipAtPoint(_audio1, Camera.main.transform.position);
         StartCoroutine(T_Drop());
 
     }
@@ -159,17 +159,17 @@ public class PasswardCustom : MonoBehaviour
         }
 
         Debug.Log("ギミック3クリア");
-        AudioSource.PlayClipAtPoint(_audio, Camera.main.transform.position);
+        AudioSource.PlayClipAtPoint(_audio1, Camera.main.transform.position);
 
-        StartCoroutine(MoveNumberPanel());
-    }
-    private IEnumerator MoveNumberPanel()
-    {
-        yield return new WaitForSeconds(2);
+        myNumberPanel.transform.DOPunchScale(new Vector3(0.3f, 0.3f, 0.3f), 1.5f);
+
+        DOVirtual.DelayedCall(2, () =>
         {
             myNumberPanel.transform.DOLocalMoveX(1, 1);
-        }
+            AudioSource.PlayClipAtPoint(_audio2, Camera.main.transform.position);
+        });
     }
+    
     private bool IsClearGimmick3()
     {
         for (int i = 0; i < _correctNumbers2.Length; i++)

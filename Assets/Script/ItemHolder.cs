@@ -9,16 +9,17 @@ public class ItemHolder : MonoBehaviour
     [SerializeField]
     AudioClip _audio;
 
-    private Image myGetItemDisplay;
-
     [SerializeField]
-    private GameObject myGetItemDisplayFrame;
+    private Image myGetItemDisplay;
 
     [SerializeField]
     private QueriController myPlayer;
 
     [SerializeField]
     private Transform myGetItemFrame;
+
+    [SerializeField]
+    private GameObject explanatoryText;
 
     [SerializeField]
     private GameObject myGetItemFalseButton;
@@ -66,7 +67,7 @@ public class ItemHolder : MonoBehaviour
                     {
                         myStockItemImage[myItemCount].sprite = _itemDetail.itemImage;
                         myItemCount++;
-                        myGetItemDisplayFrame.SetActive(true);
+                        myGetItemDisplay.gameObject.SetActive(true);
                         myGetItemDisplay.sprite = _itemDetail.itemImage;
                     }
                     //TPS時のアイテム取得
@@ -83,6 +84,7 @@ public class ItemHolder : MonoBehaviour
                         myItemCount++;
                     }
 
+                    explanatoryText.SetActive(true);
                     _itemDetail.txtMessage.text = _itemDetail.ItemName.ToString()+"を手に入れた。";
                     Destroy(_hit.collider.gameObject);
                 }
@@ -109,9 +111,9 @@ public class ItemHolder : MonoBehaviour
 
     public void GetItemImageFalse()
     {
-        myGetItemDisplayFrame.SetActive(false);
+        myGetItemDisplay.gameObject.SetActive(false);
         //myGetItemDisPlay.sprite = null;
-        _getItem.txtMessage.text = null;
+        explanatoryText.SetActive(false);
         Destroy(_getItem.gameObject);
         myPlayer.GetItemMotionEnd();
         myTweener.Kill();

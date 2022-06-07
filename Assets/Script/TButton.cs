@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class TButton : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class TButton : MonoBehaviour
     public void ChangeBool()
     {
         _activeItem = !_activeItem;
+     
     }
 
     void Update()

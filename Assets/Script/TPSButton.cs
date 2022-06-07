@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class TPSButton : MonoBehaviour
 {
@@ -11,23 +13,25 @@ public class TPSButton : MonoBehaviour
     private ItemHolder _itemHolder;
 
     [SerializeField]
-    private TButton _tButton;
+    AudioClip _audio;
 
     [SerializeField]
-    AudioClip _audio;
+    private UseItem myUseItem;
 
     public bool _TPSMode = false;
 
+    //壁の文字をPS⇨TPSに変える
     public void TPSChange()
     {
-        if (_tButton._activeItem == true)
+        if (myUseItem.activeItem_T==true)
         {
             AudioSource.PlayClipAtPoint(_audio, Camera.main.transform.position);
             _textT.SetActive(true);
-            _itemHolder.myStockItemImage[_itemHolder.myItemCount-1].sprite = null;
+            _itemHolder.myStockItemImage[_itemHolder.myItemCount - 1].sprite = null;
             //_itemHolder.myItemImage[_itemHolder.myItemCount-1].sprite = null;
             _itemHolder.myItemCount--;
             _TPSMode = true;
+            
         }
     }
 }
