@@ -13,17 +13,21 @@ public class UseItem : MonoBehaviour
         //EventSystemで選択したUIの情報を取得
         var selectItem = EventSystem.current.currentSelectedGameObject;
         Debug.Log(selectItem);
+
+        if (selectItem == null) return;
+
         if (selectItem.TryGetComponent(out Image _itemImage))
         {
-            //選択したUIのスプライトの名前がcooltext_Tであれば
-            if (_itemImage.sprite.name == "cooltext_T")
-            {
-                activeItem_T = true;
-            }
-            else
-            {
-                activeItem_T = false;
-            }
+            if (_itemImage.sprite == null) return;
+                //選択したUIのスプライトの名前がcooltext_Tであれば
+                if (_itemImage.sprite.name == "cooltext_T")
+                {
+                    activeItem_T = true;
+                }
+                //else
+                //{
+                //    activeItem_T = false;
+                //}
 
             //選択したUIのスプライトの名前がcooltext_Tでなければ
             //if (_itemImage.sprite.name != "cooltext_T")
@@ -40,5 +44,6 @@ public class UseItem : MonoBehaviour
             //    activeItem_T = false;
             //}
         }
+        
     }
 }

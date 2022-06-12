@@ -112,11 +112,14 @@ public class ItemHolder : MonoBehaviour
     public void GetItemImageFalse()
     {
         myGetItemDisplay.gameObject.SetActive(false);
-        //myGetItemDisPlay.sprite = null;
         explanatoryText.SetActive(false);
-        Destroy(_getItem.gameObject);
-        myPlayer.GetItemMotionEnd();
+    }
+
+    public void GetItemMotionFalse()
+    {
         myTweener.Kill();
+        myPlayer.GetItemMotionEnd();
+        Destroy(_getItem.gameObject);
 
         if (myWAllMove == true)
         {
@@ -127,6 +130,7 @@ public class ItemHolder : MonoBehaviour
 
         myGetItemFalseButton.SetActive(false);
     }
+
     private IEnumerator MoveWall()
     {
         yield return new WaitForSeconds(1);
